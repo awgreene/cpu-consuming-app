@@ -1,1 +1,1 @@
-# A GoLang app that uses more and more cpu
+# A cpu intensive GoLang App
