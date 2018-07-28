@@ -1,4 +1,4 @@
-# A slow GoLang Server
+# A GoLang Server used for performance testing
 ## Build and Run Docker Image
 ```bash
 $ docker build -t slow-golang-server .
