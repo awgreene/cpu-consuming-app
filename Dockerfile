@@ -1,5 +1,7 @@
 FROM golang:1.10.3
 
+LABEL maintainer="agreene@redhat.com"
+
 EXPOSE 8000
 
 COPY . /app
