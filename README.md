@@ -1,8 +1,8 @@
 # A GoLang Server used for performance testing
 ## Build and Run Docker Image
 ```bash
-$ docker build -t slow-golang-server .
-$ docker run -it -p 8000:8000 --rm --name slow-golang-server slow-golang-server
+$ docker build -t performance-server .
+$ docker run -it -p 8000:8000 --rm --name performance-server performance-server
 ```
 
 ```bash

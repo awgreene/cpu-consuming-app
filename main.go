@@ -9,7 +9,7 @@ import (
 )
 var lag time.Duration
 
-func cpu(w http.ResponseWriter, r *http.Request) {
+func hitCpu(w http.ResponseWriter, r *http.Request) {
   wait := 9999999999
   for i:=0; i<wait; i++ {
     // CPU intensive wait
@@ -17,17 +17,23 @@ func cpu(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode("{result: 200}")
 }
 
-func sleep(w http.ResponseWriter, r *http.Request) {
+// Endpoint that returns longer and longer wait times as you visit it.
+func simulateLag(w http.ResponseWriter, r *http.Request) {
   wait := lag
   lag++
   time.Sleep(wait * time.Second)
   json.NewEncoder(w).Encode("{result: 200}")
 }
 
-func main() {
+// Resets lag to zero
+func resetLag(w http.ResponseWriter, r *http.Request) {
+  lag = 0
+}
 
+func main() {
   router := mux.NewRouter()
-  router.HandleFunc("/sleep", sleep).Methods("GET")
-  router.HandleFunc("/cpu", cpu).Methods("GET")
+  router.HandleFunc("/lag", simulateLag).Methods("GET")
+  router.HandleFunc("/lag/reset", resetLag).Methods("GET")
+  router.HandleFunc("/cpu", hitCpu).Methods("GET")
   log.Fatal(http.ListenAndServe(":8000", router))
 }
