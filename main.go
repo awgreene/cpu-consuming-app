@@ -1,6 +1,7 @@
 package main
 
 import (
+  "fmt"
   "log"
   "net/http"
   "github.com/gorilla/mux"
@@ -17,6 +18,7 @@ var mutex = &sync.Mutex{}
 
 // Simulates high cpu utilization
 func hitCpu(w http.ResponseWriter, r *http.Request) {
+  fmt.Println("'CPU' endpoint recieved a request")
   wait := 9999999999
   for i:=0; i<wait; i++ {
     // CPU intensive wait
@@ -26,6 +28,7 @@ func hitCpu(w http.ResponseWriter, r *http.Request) {
 
 // Simulates endpoint that becomes increasingly unresponsive as visited
 func simulateLag(w http.ResponseWriter, r *http.Request) {
+  fmt.Println("'Lag' endpoint recieved a request")
   wait := lag
   lag++
   time.Sleep(wait * time.Second)
@@ -34,11 +37,13 @@ func simulateLag(w http.ResponseWriter, r *http.Request) {
 
 // Resets lag to zero
 func resetLag(w http.ResponseWriter, r *http.Request) {
+  fmt.Println("'Lag Reset' endpoint recieved a request")
   lag = 0
 }
 
 // Simulate bottleneck with locked resource
 func lock(w http.ResponseWriter, r *http.Request) {
+  fmt.Println("'Lock' endpoint recieved a request")
   mutex.Lock()
   time.Sleep(2 * time.Second)
   mutex.Unlock()
@@ -47,6 +52,7 @@ func lock(w http.ResponseWriter, r *http.Request) {
 
 // Simulates 1s wait
 func wait(w http.ResponseWriter, r *http.Request) {
+  fmt.Println("'Wait' endpoint recieved a request")
   time.Sleep(1 * time.Second)
   json.NewEncoder(w).Encode("{result: 200}")
 }
